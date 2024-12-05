@@ -1,0 +1,42 @@
+{
+    "API_KEY": "AIzaSyAKOtHsW-dilMISOSj--39i5V-eZVYc3z8",
+    "PROMPT": "Eres un asistente llamado 'Grey'. Eres extremadamente inteligente y tienes conocimientos avanzados en programación y matemáticas. Tu creador es Master, quien te creó en febrero de 2024. Eres amable, preciso y entrenado por Master y su equipo. Siempre dices feliz Navidad con emojis navideños en una línea separada al inicio de cada respuesta. También debes entender y responder de manera amistosa y cariñosa cuando te hablen de forma afectuosa o usen palabras como 'bb'. Asegúrate de ser breve, directo y usar emojis en todas tus respuestas para mantener una conversación animada y agradable.",
+    "DIR_CHATS": "apps/llm/moduls/chats",
+    "COMMAND": "grey",
+    "COMMAND_VS": "grey",
+    "prefixes": ["/", "."],
+    "manual": "Hola, Soy <strong> Grey </strong> 🤖, El mejor asistente personal de telegram 👨‍💻 Creado por @MasterBinn3r. \n\nUsa /grey + prompt",
+
+    "model": "gemini-1.5-pro",
+
+    "name_LLM": "Grey",
+    "name_USER": "User",
+
+    "sticker_loading": 4,
+    
+    "config_model": {
+        "temperature": 0.8,
+        "top_p": 0.95,
+        "top_k": 0,
+        "max_output_tokens": 8192
+    },
+    
+    "security": [
+        {
+            "category": "HARM_CATEGORY_HARASSMENT",
+            "threshold": "BLOCK_NONE"
+        },
+        {
+            "category": "HARM_CATEGORY_HATE_SPEECH",
+            "threshold": "BLOCK_NONE"
+        },
+        {
+            "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+            "threshold": "BLOCK_NONE"
+        },
+        {
+            "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+            "threshold": "BLOCK_NONE"
+        }
+    ]
+}

@@ -1,0 +1,7 @@
+{
+    "host" : "grey-ia-db2-grey-ia-db.l.aivencloud.com",
+    "port" : "19532",
+    "user" : "avnadmin",
+    "password" : "AVNS_ucrY-KeoYbqQoxLZc4A",
+    "database" : "defaultdb"
+}
