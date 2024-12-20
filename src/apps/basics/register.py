@@ -7,7 +7,7 @@ from apps.basics.func import create_table, get_connection, alter
 
 # Inicializa la base de datos y la tabla
 create_table()
-print("REGISTRO LISTo")
+print("REGISTRO LISTO")
 
 @Client.on_message(filters.command("register", prefixes=["/", "."]))
 async def register_user(client, message):
@@ -30,7 +30,7 @@ async def register_user(client, message):
     cursor.execute("SELECT * FROM Users WHERE id_tlg = %s", (user_id,))
     if cursor.fetchone():
         await stk.delete()
-        await message.reply("Ya estás registrado.")
+        await message.reply("<strong>⚠️ Ya estás registrado ⚠️</strong>")
         cursor.close()
         cnx.close()
         return
@@ -48,7 +48,7 @@ async def register_user(client, message):
     await stk.delete()
     await message.reply(f"""
 ¡Te has registrado exitosamente!
-<strong> Usuario: @{username}</strong [<code>{user_id}</code>]
+<strong> Usuario: @{username}</strong> [<code>{user_id}</code>]
 <strong> Nombre </strong>: {first_name} {last_name}
 <strong> Tiempo del registro: </strong> <code> {time} </code>
 """, reply_markup=keyboard)
