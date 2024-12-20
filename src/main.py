@@ -71,7 +71,7 @@ if __name__ == "__main__":
         response = requests.get("http://www.google.com", timeout=5)
         if response.status_code == 200:
             utils.animINFO("Checking for updates...")
-            update = forUpdate("Iampro1706", "GreyIA")
+            update = forUpdate("Iampro1712", "GreyIA")
             if update:
                 utils.animDONE("System up to date.")
                 internet = True
