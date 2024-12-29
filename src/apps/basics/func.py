@@ -44,6 +44,62 @@ def alter():
     except Exception as e:
         print(e)
 
+# Crear la nueva columna "credits" en la tabla "Users"
+def add_credits_column():
+    try:
+        cnx = get_connection()      
+        cursor = cnx.cursor()          
+        cursor.execute("ALTER TABLE Users ADD COLUMN credits INT DEFAULT 0;")
+        cnx.commit()
+        print("Columna agregada correctamente")
+    except Exception as e:
+        print(f"Error al agregar la columna: {e}")
+    finally:
+        cnx.close()
+
+def add_credits(user_id, credits):
+    try:
+        cnx = get_connection()
+        cursor = cnx.cursor()
+        cursor.execute("UPDATE Users SET credits = credits + %s WHERE id_tlg = %s", (credits, user_id))
+        cnx.commit()
+        cursor.execute("SELECT credits FROM Users WHERE id_tlg = %s", (user_id,))
+        credits_tt = cursor.fetchone()
+        print("Créditos agregados correctamente")
+        print(f"Créditos agregados: {credits}, Creditos totales: {credits_tt}")
+    except Exception as e:
+        print(f"Error al agregar créditos: {e}")
+    finally:
+        cnx.close()
+
+def remove_credits(user_id, credits):
+    try:
+        cnx = get_connection()
+        cursor = cnx.cursor()
+        cursor.execute("UPDATE Users SET credits = credits - %s WHERE id_tlg = %s", (credits, user_id))
+        cnx.commit()
+        cursor.execute("SELECT credits FROM Users WHERE id_tlg = %s", (user_id,))
+        credits_tt = cursor.fetchone()
+        print("Créditos eliminados correctamente")
+        print(f"Créditos eliminados: {credits}, Creditos totales: {credits_tt}")
+    except Exception as e:
+        print(f"Error al eliminar créditos: {e}")
+    finally:
+        cnx.close()
+
+def see_credits(user_id):
+    try:
+        cnx = get_connection()
+        cursor = cnx.cursor()
+        cursor.execute("SELECT credits FROM Users WHERE id_tlg = %s", (user_id,))
+        credits_tt = cursor.fetchone()
+        print(f"Creditos totales: {credits_tt}, del id {user_id}")
+    except Exception as e:
+        print(f"Error al ver los créditos: {e}")
+    finally:
+        cnx.close()
+    return credits_tt
+
 # Función para crear la tabla si no existe
 def create_table():
     cnx = get_connection()

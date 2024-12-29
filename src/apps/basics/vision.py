@@ -4,7 +4,7 @@ import google.generativeai as genai
 import PIL.Image as pil
 import json, mysql.connector
 from moduls.utils.utils import load_json, loading_message
-from apps.basics.func import user_exists, get_connection
+from apps.basics.func import user_exists, remove_credits, see_credits
 
 CONFIG = load_json("llmConfig")
 CONFIG_DB = load_json("db")
@@ -15,8 +15,17 @@ genai.configure(api_key=CONFIG["API_KEY"])
 async def process_image_and_generate_content(image_path, prompt):
     try:
         if not prompt:
-            prompt = "Describa eficientemente con un vocabulario muy fino en español."
-        
+            prompt = "Describe eficientemente el contenido visual con un vocabulario muy fino en español."
+
+        # Contexto explícito en español
+        initial_context = (
+            "Eres un asistente avanzado de inteligencia artificial. Siempre debes responder en español, "
+            "con descripciones detalladas, precisas y claras. Si se te proporciona una imagen, analiza su contenido visual "
+            "y responde únicamente en español, Si no ves muy bien la imagen, puedes pedir que mande una con mejor calidad."
+        )
+
+        # Combinar contexto inicial con el prompt del usuario
+        full_prompt = f"{initial_context}\nUsuario: {prompt}"
         security = [
         {
             "category": "HARM_CATEGORY_HARASSMENT",
@@ -37,7 +46,7 @@ async def process_image_and_generate_content(image_path, prompt):
         ]
 
         img = pil.open(image_path)
-        response = model.generate_content([prompt, img], safety_settings=security,stream=False)
+        response = model.generate_content([full_prompt, img], safety_settings=security,stream=False)
         return response.text
     except ValueError as e:
         return f"Error: {e}"
@@ -57,13 +66,18 @@ async def start1(client, message):
 
     stk = await loading_message(message, sticker_id=4)
 
-    cnx = get_connection()
-    cursor = cnx.cursor()
-
     user_id = message.from_user.id
 
     if not user_exists(user_id):
         await message.reply_text("[<a href=tg://user?id=>⽷</a>] <strong>No estas registrado, Usa /register para poder usar este comando.</strong>")
+        return
+
+    credits = see_credits(user_id)
+    credits = int(credits[0])
+
+    if credits < 2:
+        await message.reply_text("<strong>[<a href=tg://user?id=>⽷</a>] No tienes suficientes creditos para usar este comando.</strong>")
+        await stk.delete()
         return
 
     TEXT = message.caption.split()
@@ -77,8 +91,6 @@ async def start1(client, message):
 
     # Enviar el texto generado al usuario
     await stk.delete()
+    remove_credits(user_id, 2)
     await message.reply(response_text, reply_markup=keyboard)
     await client.send_message(OWNER, f"El usuario @{usr} ha usado mi visión en el chat <code>{chat_id}`</code>")
-
-    cursor.close()
-    cnx.close()

@@ -3,7 +3,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import mysql.connector
 import datetime
 from moduls.utils.utils import loading_message, load_json
-from apps.basics.func import create_table, get_connection, alter
+from apps.basics.func import create_table, get_connection, add_credits_column
 
 # Inicializa la base de datos y la tabla
 create_table()
@@ -71,6 +71,8 @@ async def info(client, message):
     # Verifica si el usuario está registrado
     cursor.execute("SELECT * FROM Users WHERE id_tlg = %s", (user_id,))
     user_info = cursor.fetchone()
+    cursor.execute("SELECT credits FROM Users WHERE id_tlg = %s", (user_id,))
+    user_credits = cursor.fetchone()
     cursor.close()
     cnx.close()
     
@@ -82,13 +84,14 @@ async def info(client, message):
         username, first_name, last_name = user_info[1], user_info[2], user_info[3]
         await stk.delete()
         await message.reply(f""" 
-═══════════════════════════
-<a href="#">↳</a> Información del usuario 
-<a href="#">↳</a> <strong> Usuario </strong>: @{username}
-<a href="#">↳</a> <strong> ID </strong>: <code>{user_id}</code>
-<a href="#">↳</a> <strong> Nombre </strong>: {first_name} {last_name}
-<a href="#">↳</a> <strong> Bot By </strong>: <strong>@MasterBinn3r</strong>
-═══════════════════════════
+═════════════════
+<a href=tg://user?id=>↳</a> Información del usuario 
+<a href=tg://user?id=>↳</a> <strong> Usuario </strong>: @{username}
+<a href=tg://user?id=>↳</a> <strong> ID </strong>: <code>{user_id}</code>
+<a href=tg://user?id=>↳</a> <strong> Nombre </strong>: {first_name} {last_name}
+<a href=tg://user?id=>↳</a> <strong> Creditos </strong>: {user_credits[0]}
+<a href=tg://user?id=>↳</a> <strong> Bot By </strong>: <strong>@MasterBinn3r</strong>
+═════════════════
     """, reply_markup=keyboard)
         
 @Client.on_message(filters.command("delete", prefixes=["/", "."]))
