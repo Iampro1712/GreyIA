@@ -8,7 +8,7 @@ prefixes = ["/", ".", "!", "#"]
 @Client.on_message(filters.command("buy", prefixes=prefixes))
 async def buycr(client, message):
     keyboard = InlineKeyboardMarkup(
-        [(InlineKeyboardButton("📲 Contactar para comprar", url="https://t.me/MasterBinn3r"))]
+        InlineKeyboardButton("📲 Contactar para comprar", url="https://t.me/MasterBinn3r")
     )
 
     user_id = message.from_user.id
