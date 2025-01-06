@@ -1,6 +1,4 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-import mysql.connector
 from moduls.utils.utils import loading_message
 from apps.basics.func import user_exists, add_credits, remove_credits
 

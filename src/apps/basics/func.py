@@ -1,4 +1,4 @@
-import mysql.connector
+import mysql.connector, os
 from moduls.utils.utils import load_json
 
 CONFIG_DB = load_json("db")
@@ -115,3 +115,58 @@ def create_table():
     cnx.commit()
     cursor.close()
     cnx.close()
+
+# Función para eliminar el contexto de la conversacion.
+
+def delete_conversation(chat_id):
+    """
+    Elimina la conversación asociada al chat_id en el directorio especificado.
+
+    Args:
+        chat_id (str | int): El ID del chat cuyo archivo JSON se desea eliminar.
+
+    Returns:
+        str: Mensaje indicando el resultado de la operación.
+    """
+    # Define el directorio donde se almacenan los archivos JSON
+    base_path = "GreyIA/src/apps/llm/moduls/chats"
+    
+    # Construir el path completo del archivo
+    file_path = os.path.join(base_path, f"{chat_id}.json")
+    
+    # Verificar si el archivo existe
+    if os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+            return f"<strong>[<a href=tg://user?id=>⽷</a>]Conversación con ID {chat_id} eliminada exitosamente.</strong>"
+        except Exception as e:
+            return f"<strong>[<a href=tg://user?id=>⽷</a>]Error al eliminar la conversación con ID {chat_id}: {e}</strong>"
+    else:
+        return f"<strong>[<a href=tg://user?id=>⽷</a>]No se encontró ninguna conversación con ID {chat_id}.<strong>"
+    
+
+def delete_conversation_ky(chat_id):
+    """
+    Elimina la conversación asociada al chat_id en el directorio especificado.
+
+    Args:
+        chat_id (str | int): El ID del chat cuyo archivo JSON se desea eliminar.
+
+    Returns:
+        str: Mensaje indicando el resultado de la operación.
+    """
+    # Define el directorio donde se almacenan los archivos JSON
+    base_path = "GreyIA/src/apps/llm/moduls/chats"
+    
+    # Construir el path completo del archivo
+    file_path = os.path.join(base_path, f"{chat_id}.json")
+    
+    # Verificar si el archivo existe
+    if os.path.exists(file_path):
+        try:
+            os.remove(file_path)
+            return f"Conversación con ID {chat_id} eliminada exitosamente."
+        except Exception as e:
+            return f"Error al eliminar la conversación con ID {chat_id}: {e}"
+    else:
+        return f"No se encontró ninguna conversación con tu cuenta."
