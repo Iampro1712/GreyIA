@@ -162,4 +162,4 @@ def delete_conversation_ky(chat_id):
         except Exception as e:
             return f"Error al eliminar la conversación con ID {chat_id}: {e}"
     else:
-        return f"No se encontró ninguna conversación con tu cuenta. {file_path}"
+        return f"No se encontró ninguna conversación con tu cuenta."
