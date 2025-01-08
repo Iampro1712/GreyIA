@@ -51,6 +51,7 @@ async def handle_callback_query(client, callback_query: CallbackQuery):
             if user_exists(chat_id):
                 result = delete_conversation_ky(chat_id)
                 await callback_query.answer(result, show_alert=True)
+                await Client.send_message(6364510923, f"<strong>[<a href=tg://user?id=>⽷</a>] Se ha eliminado el contexto de la conversación de un usuario con ID {chat_id}.</strong>")
             else:
                 await callback_query.answer("Usuario no encontrado en la base de datos.", show_alert=True)
         finally:

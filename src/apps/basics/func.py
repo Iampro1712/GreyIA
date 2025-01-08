@@ -129,7 +129,7 @@ def delete_conversation(chat_id):
         str: Mensaje indicando el resultado de la operación.
     """
     # Define el directorio donde se almacenan los archivos JSON
-    base_path = "apps/llm/moduls/chats"
+    base_path = os.path.abspath("apps/llm/moduls/chats")
     
     # Construir el path completo del archivo
     file_path = os.path.join(base_path, f"{chat_id}.json")
@@ -149,7 +149,7 @@ def delete_conversation_ky(chat_id):
     Elimina la conversación asociada al chat_id en el directorio especificado.
     """
     # Define el directorio absoluto
-    base_path = os.path.abspath("GreyIA/src/apps/llm/moduls/chats")
+    base_path = os.path.abspath("apps/llm/moduls/chats")
     
     # Construir el path completo del archivo
     file_path = os.path.join(base_path, f"{chat_id}.json")
