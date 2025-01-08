@@ -144,19 +144,12 @@ def delete_conversation(chat_id):
     else:
         return f"<strong>[<a href=tg://user?id=>⽷</a>]No se encontró ninguna conversación con ID {chat_id}.<strong>"
     
-
 def delete_conversation_ky(chat_id):
     """
     Elimina la conversación asociada al chat_id en el directorio especificado.
-
-    Args:
-        chat_id (str | int): El ID del chat cuyo archivo JSON se desea eliminar.
-
-    Returns:
-        str: Mensaje indicando el resultado de la operación.
     """
-    # Define el directorio donde se almacenan los archivos JSON
-    base_path = "GreyIA/src/apps/llm/moduls/chats"
+    # Define el directorio absoluto
+    base_path = os.path.abspath("GreyIA/src/apps/llm/moduls/chats")
     
     # Construir el path completo del archivo
     file_path = os.path.join(base_path, f"{chat_id}.json")
@@ -169,4 +162,4 @@ def delete_conversation_ky(chat_id):
         except Exception as e:
             return f"Error al eliminar la conversación con ID {chat_id}: {e}"
     else:
-        return f"No se encontró ninguna conversación con tu cuenta."
+        return f"No se encontró ninguna conversación con tu cuenta. {file_path}"
