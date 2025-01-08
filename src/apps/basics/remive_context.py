@@ -15,5 +15,5 @@ async def del_contx(client, message):
     p = delete_conversation(message.from_user.id)
     await stk.delete()
     await message.reply_text(p)
-    await Client.send_message(6364510923, "<strong>[<a href=tg://user?id=>⽷</a>] Se ha eliminado el contexto de la conversación de un usuario.</strong>")
+    await client.send_message(6364510923, "<strong>[<a href=tg://user?id=>⽷</a>] Se ha eliminado el contexto de la conversación de un usuario.</strong>")
     
