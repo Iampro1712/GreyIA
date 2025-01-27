@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 import mysql.connector
 from moduls.utils.utils import load_json
+from pyrogram.errors import *
 #from data_db import host, port, user, password, database
 
 CONFIG_DB = load_json("db")
@@ -30,8 +31,13 @@ async def send_message_to_all(client, message):
 
     for user in users:
         user_id = user[0]
+        print(f"Sending message to {user_id}")
         try:
+            await client.send_message(6364510923, f"Enviando mensaje a {user_id}")
             await client.send_message(user_id, text)
+        except PeerIdInvalid as e:
+            await client.send_message(6364510923, f"Usuario borró conversacion: {user_id}")
+            print(f"Usuario inválido o borró conversacion: {user_id}")
         except Exception as e:
             print(f"Error sending message to {user_id}: {e}")
 

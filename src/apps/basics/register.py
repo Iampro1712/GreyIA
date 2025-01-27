@@ -7,7 +7,6 @@ from apps.basics.func import create_table, get_connection, add_credits_column
 
 # Inicializa la base de datos y la tabla
 create_table()
-print("REGISTRO LISTO")
 
 @Client.on_message(filters.command("register", prefixes=["/", "."]))
 async def register_user(client, message):
