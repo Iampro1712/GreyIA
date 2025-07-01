@@ -1,7 +1,5 @@
 {
-    "host" : "grey-ia-db2-grey-ia-db.l.aivencloud.com",
-    "port" : "19532",
-    "user" : "avnadmin",
-    "password" : "AVNS_ucrY-KeoYbqQoxLZc4A",
-    "database" : "defaultdb"
+    "connection_timeout": 30,
+    "charset": "utf8mb4",
+    "autocommit": true
 }

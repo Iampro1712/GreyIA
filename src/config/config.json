@@ -3,9 +3,6 @@
     "name": "grey",
     "mention": "@GreyIA_Bot",
     "url": "https://t.me/GreyIA_Bot",
-    "api_id": 18693077,
-    "api_hash": "c6c4c78e3590bd62551a2e3c51ff7040",
-    "bot_token": "6314195790:AAFo390oZfv7cCzi6rbjNVFOBVANZYQRUSU",
     "dir_plugins": "apps",
     "dir_users": "apps/llm/moduls/user_data"
 }

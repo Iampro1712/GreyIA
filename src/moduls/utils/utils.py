@@ -1,4 +1,8 @@
 import os, json, pickle, random, sys, time
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # VAR
 DIRPOSTSAVED = "moduls/postdata/postdataSaved.pkl"
@@ -41,16 +45,37 @@ def load_json(file_config="config"):
     current_dir = os.path.dirname(os.path.abspath(__file__))
     dir_principal = os.path.abspath(os.path.join(current_dir, '..', '..'))
     route = os.path.join(dir_principal, 'config', f"{file_config}.json")
+
     try:
         with open(route, 'r') as archivo_config:
             config = json.load(archivo_config)
-        return config
     except FileNotFoundError:
         print(f"Error: El archivo {route} no se encontró.")
-        return {}
+        config = {}
     except json.JSONDecodeError:
         print(f"Error: El archivo {route} no es un JSON válido.")
-        return {}
+        config = {}
+
+    # Merge with environment variables based on config type
+    if file_config == "config":
+        # Telegram bot configuration
+        config["api_id"] = int(os.getenv("TELEGRAM_API_ID", config.get("api_id", 0)))
+        config["api_hash"] = os.getenv("TELEGRAM_API_HASH", config.get("api_hash", ""))
+        config["bot_token"] = os.getenv("TELEGRAM_BOT_TOKEN", config.get("bot_token", ""))
+
+    elif file_config == "db":
+        # Database configuration
+        config["host"] = os.getenv("DB_HOST", config.get("host", ""))
+        config["port"] = os.getenv("DB_PORT", config.get("port", ""))
+        config["user"] = os.getenv("DB_USER", config.get("user", ""))
+        config["password"] = os.getenv("DB_PASSWORD", config.get("password", ""))
+        config["database"] = os.getenv("DB_DATABASE", config.get("database", ""))
+
+    elif file_config == "llmConfig":
+        # LLM configuration
+        config["API_KEY"] = os.getenv("API_KEY", config.get("API_KEY", ""))
+
+    return config
 
 def save_api_key(api_key):
     script_dir = os.path.dirname(os.path.abspath(__file__))

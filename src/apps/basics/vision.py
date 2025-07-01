@@ -9,8 +9,8 @@ from apps.basics.func import user_exists, remove_credits, see_credits
 CONFIG = load_json("llmConfig")
 CONFIG_DB = load_json("db")
 
-model = genai.GenerativeModel('gemini-1.5-flash')
 genai.configure(api_key=CONFIG["API_KEY"])
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 async def process_image_and_generate_content(image_path, prompt):
     try:

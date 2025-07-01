@@ -1,12 +1,8 @@
 import google.generativeai as genai
 from moduls.utils.utils import load_json
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
 
 CONFIG = load_json("llmConfig")
-genai.configure(api_key=os.getenv("API_KEY"))
+genai.configure(api_key=CONFIG["API_KEY"])
 model = genai.GenerativeModel(model_name=CONFIG["model"],
                               generation_config=CONFIG["config_model"],
                               safety_settings=CONFIG["security"])
