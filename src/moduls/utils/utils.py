@@ -66,7 +66,7 @@ def load_json(file_config="config"):
     elif file_config == "db":
         # Database configuration
         config["host"] = os.getenv("DB_HOST", config.get("host", ""))
-        config["port"] = os.getenv("DB_PORT", config.get("port", ""))
+        config["port"] = int(os.getenv("DB_PORT", config.get("port", "3306")))
         config["user"] = os.getenv("DB_USER", config.get("user", ""))
         config["password"] = os.getenv("DB_PASSWORD", config.get("password", ""))
         config["database"] = os.getenv("DB_DATABASE", config.get("database", ""))
