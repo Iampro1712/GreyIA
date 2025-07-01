@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
 from google import genai
+from google.genai import types
 import PIL.Image as pil
 import json, mysql.connector
 from moduls.utils.utils import load_json, loading_message
@@ -56,12 +57,12 @@ async def process_image_and_generate_content(image_path, prompt):
         response = client.models.generate_content(
             model="gemini-1.5-flash",
             contents=[
-                genai.Part.from_text(full_prompt),
-                genai.Part.from_bytes(img_bytes.read(), mime_type="image/png")
+                types.Part.from_text(full_prompt),
+                types.Part.from_bytes(img_bytes.read(), mime_type="image/png")
             ],
-            config=genai.GenerateContentConfig(
+            config=types.GenerateContentConfig(
                 safety_settings=[
-                    genai.SafetySetting(
+                    types.SafetySetting(
                         category=setting["category"],
                         threshold=setting["threshold"]
                     ) for setting in security
