@@ -76,9 +76,6 @@ def load_json(file_config="config"):
         config["password"] = os.getenv("DB_PASSWORD", config.get("password", ""))
         config["database"] = os.getenv("DB_DATABASE", config.get("database", "test"))
 
-        # Debug: print loaded values (remove this after testing)
-        print(f"DEBUG DB Config: host={config['host']}, port={config['port']}, user={config['user']}, database={config['database']}")
-
     elif file_config == "llmConfig":
         # LLM configuration
         config["API_KEY"] = os.getenv("API_KEY", config.get("API_KEY", ""))

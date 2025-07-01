@@ -28,12 +28,11 @@ fqdn
 fsspec
 gitdb
 GitPython
-google-ai-generativelanguage
+google-genai
 google-api-core
 google-api-python-client
 google-auth
 google-auth-httplib2
-google-generativeai
 googleapis-common-protos
 grpcio
 grpcio-status

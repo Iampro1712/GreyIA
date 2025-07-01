@@ -1,12 +1,30 @@
-import google.generativeai as genai
+from google import genai
 from moduls.utils.utils import load_json
 
 CONFIG = load_json("llmConfig")
-genai.configure(api_key=CONFIG["API_KEY"])
-model = genai.GenerativeModel(model_name=CONFIG["model"],
-                              generation_config=CONFIG["config_model"],
-                              safety_settings=CONFIG["security"])
+
+# Initialize the client with API key
+client = genai.Client(api_key=CONFIG["API_KEY"])
 
 async def iaSpeech(CONTEXT):
-    response = await model.generate_content_async(CONTEXT)
-    return response.text
+    try:
+        response = client.models.generate_content(
+            model=CONFIG["model"],
+            contents=CONTEXT,
+            config=genai.GenerateContentConfig(
+                temperature=CONFIG["config_model"]["temperature"],
+                top_p=CONFIG["config_model"]["top_p"],
+                top_k=CONFIG["config_model"]["top_k"],
+                max_output_tokens=CONFIG["config_model"]["max_output_tokens"],
+                safety_settings=[
+                    genai.SafetySetting(
+                        category=setting["category"],
+                        threshold=setting["threshold"]
+                    ) for setting in CONFIG["security"]
+                ]
+            )
+        )
+        return response.text
+    except Exception as e:
+        print(f"Error in iaSpeech: {e}")
+        return "Lo siento, hubo un error al procesar tu solicitud."

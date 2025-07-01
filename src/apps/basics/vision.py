@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
-import google.generativeai as genai
+from google import genai
 import PIL.Image as pil
 import json, mysql.connector
 from moduls.utils.utils import load_json, loading_message
@@ -9,8 +9,8 @@ from apps.basics.func import user_exists, remove_credits, see_credits
 CONFIG = load_json("llmConfig")
 CONFIG_DB = load_json("db")
 
-genai.configure(api_key=CONFIG["API_KEY"])
-model = genai.GenerativeModel('gemini-1.5-flash')
+# Initialize the client with API key
+client = genai.Client(api_key=CONFIG["API_KEY"])
 
 async def process_image_and_generate_content(image_path, prompt):
     try:
@@ -46,7 +46,28 @@ async def process_image_and_generate_content(image_path, prompt):
         ]
 
         img = pil.open(image_path)
-        response = model.generate_content([full_prompt, img], safety_settings=security,stream=False)
+
+        # Convert PIL image to bytes for the new SDK
+        import io
+        img_bytes = io.BytesIO()
+        img.save(img_bytes, format='PNG')
+        img_bytes.seek(0)
+
+        response = client.models.generate_content(
+            model="gemini-1.5-flash",
+            contents=[
+                genai.Part.from_text(full_prompt),
+                genai.Part.from_bytes(img_bytes.read(), mime_type="image/png")
+            ],
+            config=genai.GenerateContentConfig(
+                safety_settings=[
+                    genai.SafetySetting(
+                        category=setting["category"],
+                        threshold=setting["threshold"]
+                    ) for setting in security
+                ]
+            )
+        )
         return response.text
     except ValueError as e:
         return f"Error: {e}"

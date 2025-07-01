@@ -10,6 +10,7 @@ Este proyecto ha sido actualizado para mejorar la seguridad moviendo informació
 2. **Variables de entorno**: Información sensible movida a archivo `.env`
 3. **Archivos JSON actualizados**: Solo contienen configuraciones no sensibles
 4. **Sistema híbrido**: Combina configuración JSON con variables de entorno
+5. **SDK actualizada**: Migración de `google-generativeai` a `google-genai` (nueva SDK oficial de Google)
 
 ## 🔧 Configuración Inicial
 
@@ -91,12 +92,29 @@ cd src
 python main.py
 ```
 
+## 🔄 Migración de SDK de Google
+
+### Nueva SDK: `google-genai`
+El proyecto ha sido actualizado para usar la nueva SDK oficial de Google `google-genai` en lugar de `google-generativeai`.
+
+**Beneficios de la nueva SDK:**
+- ✅ Acceso a modelos más recientes (Gemini 2.5)
+- ✅ Mejor rendimiento y estabilidad
+- ✅ Soporte oficial a largo plazo
+- ✅ Nuevas funcionalidades como generación de imágenes y video
+
+**Cambios en el código:**
+- `import google.generativeai as genai` → `from google import genai`
+- `genai.configure()` → `client = genai.Client()`
+- `model.generate_content_async()` → `client.models.generate_content()`
+
 ## ⚠️ Notas Importantes
 
 1. **Nunca subas el archivo `.env` al repositorio**
 2. **Usa `.env.example` como plantilla para nuevas instalaciones**
 3. **Las variables de entorno tienen prioridad sobre los valores JSON**
 4. **Mantén actualizadas las credenciales según sea necesario**
+5. **La nueva SDK requiere una API key válida de Google AI Studio**
 
 ## 🔄 Migración desde Versión Anterior
 
