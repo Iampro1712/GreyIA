@@ -1,8 +1,11 @@
 import os, json, pickle, random, sys, time
 from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
+# Load environment variables from .env file in project root
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
+env_path = os.path.join(project_root, '.env')
+load_dotenv(env_path)
 
 # VAR
 DIRPOSTSAVED = "moduls/postdata/postdataSaved.pkl"
@@ -65,11 +68,16 @@ def load_json(file_config="config"):
 
     elif file_config == "db":
         # Database configuration
-        config["host"] = os.getenv("DB_HOST", config.get("host", ""))
-        config["port"] = int(os.getenv("DB_PORT", config.get("port", "3306")))
-        config["user"] = os.getenv("DB_USER", config.get("user", ""))
+        config["host"] = os.getenv("DB_HOST", config.get("host", "localhost"))
+        # Convert port to int, with proper fallback
+        port_value = os.getenv("DB_PORT", config.get("port", 3306))
+        config["port"] = int(port_value) if isinstance(port_value, str) else port_value
+        config["user"] = os.getenv("DB_USER", config.get("user", "root"))
         config["password"] = os.getenv("DB_PASSWORD", config.get("password", ""))
-        config["database"] = os.getenv("DB_DATABASE", config.get("database", ""))
+        config["database"] = os.getenv("DB_DATABASE", config.get("database", "test"))
+
+        # Debug: print loaded values (remove this after testing)
+        print(f"DEBUG DB Config: host={config['host']}, port={config['port']}, user={config['user']}, database={config['database']}")
 
     elif file_config == "llmConfig":
         # LLM configuration
